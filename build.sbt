@@ -905,7 +905,7 @@ lazy val tests: CrossProject = crossProject(JSPlatform, JVMPlatform, NativePlatf
     scalacOptions ~= { _.filterNot(_.startsWith("-P:scalajs:mapSourceURI")) }
   )
   .jvmSettings(
-    fork := true
+    fork := false
   )
   .nativeSettings(
     Compile / mainClass := Some("catseffect.examples.NativeRunner")
@@ -929,7 +929,7 @@ lazy val ioAppTestsJVM =
     .configure(configureIOAppTests)
     .settings(
       buildInfoKeys += "platform" -> "jvm",
-      Test / fork := true,
+      Test / fork := false,
       Test / javaOptions += s"-Dcatseffect.examples.classpath=${(tests.jvm / Compile / fullClasspath).value.map(_.data.getAbsolutePath).mkString(File.pathSeparator)}"
     )
 
@@ -1084,7 +1084,7 @@ lazy val benchmarks = project
   .dependsOn(core.jvm, std.jvm)
   .settings(
     name := "cats-effect-benchmarks",
-    fork := true,
+    fork := false,
     javaOptions ++= Seq(
       "-Dcats.effect.tracing.mode=none",
       "-Dcats.effect.tracing.exceptions.enhanced=false"))
